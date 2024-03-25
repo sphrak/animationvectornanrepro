@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
                             flingBehavior = rememberSnapFlingBehavior(lazyListState = state),
                             state = state
                         ) {
-                            items(list, key = {it} ) {
+                            items(list) {
                                 Item(
                                     modifier = Modifier
                                         .fillParentMaxWidth(),
