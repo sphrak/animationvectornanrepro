@@ -74,8 +74,7 @@ class MainActivity : ComponentActivity() {
                             items(list, key = {it} ) {
                                 Item(
                                     modifier = Modifier
-                                        .fillParentMaxWidth()
-                                        .animateItemPlacement(),
+                                        .fillParentMaxWidth(),
                                     value = it,
                                     onDismiss = {
                                         list.remove(it)
