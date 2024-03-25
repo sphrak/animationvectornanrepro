@@ -1,5 +1,7 @@
 # animationvectornanrepro
 
+![video](video.mp4)
+
 ```
 08:26:18.219  E  FATAL EXCEPTION: main
                  Process: se.bankgirot.swish.dev.debug, PID: 9804
