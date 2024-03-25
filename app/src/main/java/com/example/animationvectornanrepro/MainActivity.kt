@@ -15,9 +15,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -48,43 +51,46 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AnimationvectornanreproTheme {
-                Scaffold(modifier = Modifier.fillMaxSize().systemBarsPadding()) { innerPadding ->
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    contentWindowInsets = WindowInsets.systemBars
+                ) { innerPadding ->
 
                     val list = remember {
                         mutableStateListOf(*test)
                     }
 
-
                     val state = rememberLazyListState()
 
-                    Button(
-                        onClick = {
-                            list.clear()
-                            list.addAll(test)
+                    Column(Modifier.padding(innerPadding)) {
+                        Button(
+                            onClick = {
+                                list.clear()
+                                list.addAll(test)
+                            }
+                        ) {
+                            Text(text = "reset list")
                         }
-                    ) {
-                        Text(text = "reset list")
+                        LazyRow(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(8.dp),
+                            flingBehavior = rememberSnapFlingBehavior(lazyListState = state),
+                            state = state
+                        ) {
+                            items(list, key = {it} ) {
+                                Item(
+                                    modifier = Modifier
+                                        .fillParentMaxWidth()
+                                        .animateItemPlacement(),
+                                    value = it,
+                                    onDismiss = {
+                                        list.remove(it)
+                                    }
+                                )
+                            }
+                        }
                     }
 
-                    LazyRow(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                            .systemBarsPadding(),
-                        contentPadding = PaddingValues(8.dp),
-                        flingBehavior = rememberSnapFlingBehavior(lazyListState = state),
-                        state = state
-                    ) {
-                        items(list, key = {it} ) {
-                            Item(
-                                modifier = Modifier.fillParentMaxWidth().animateItemPlacement(),
-                                value = it,
-                                onDismiss = {
-                                    list.remove(it)
-                                }
-                            )
-                        }
-                    }
                 }
             }
         }
